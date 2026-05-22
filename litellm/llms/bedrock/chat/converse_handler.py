@@ -282,6 +282,9 @@ class BedrockConverseLLM(BaseAWSLLM):
                 if _stripped.startswith(rp):
                     _stripped = _stripped[len(rp) :]
                     break
+            # Keep _model_for_id aligned with LiteLLM prefix stripping above; otherwise IDs
+            # like bedrock/<arn-or-profile> still encode with a stray "bedrock/" segment.
+            _model_for_id = _stripped
             # Strip embedded region prefix (e.g. "bedrock/us-east-1/model" -> "model")
             # and capture it so it can be used as aws_region_name below.
             _region_from_model: Optional[str] = None
